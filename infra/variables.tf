@@ -1,3 +1,11 @@
+variable access_key {
+  description = "Please Enter the valid access key to perform the action"
+}
+
+variable Secret_access_key {
+  description = "Please Enter a valid secret access key to perform the action"
+}
+
 variable cidr {
   description = "Please enter a valid cidr_black for your VPC. "
 }
@@ -28,3 +36,4 @@ variable private_subnet_cidrs {
    cache = "10.0.4.0/24"
   }
 }
+

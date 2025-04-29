@@ -26,5 +26,27 @@ resource "aws_subnet" "private_subnet" {
   tags = {
     Name = "${var.vpc_name}-${each.key}-subnet"
   }
+}
+
+resource "aws_internet_gateway" "my-igw" {
+  vpc_id = aws_vpc.my_vpc.id
+  tags = {
+    Name = "${var.vpc_name}-internet-gateway"
+  }
+}
+
+resource "aws_eip" "nat_eip" {
+  for_each = var.private_subnet_cidrs
+  domain = "vpc"
+  tags = {
+    Name = "nat-eip-${each.key}"
+  }
+}
+
+
+resource "aws_nat_gateway" "my-nat" {
+  for_each = var.private_subnet_cidrs
+  allocation_id = aws_eip.nat_eip[each.key].id
+  subnet_id = aws_subnet.private_subnet[each.key].id
 
 }
